@@ -1,0 +1,28 @@
+@startuml diagramme
+    class User {
+     String firstname
+    String lastname
+    String email
+    String password
+    String gender
+    String role
+    String status
+    String phone
+    }
+
+class Task {
+   String title
+   String description
+   Date startedAt
+   Date finishedAt
+   String taskPdf
+   String reportPdf
+   String taskDoc
+   String reportDoc
+   String status
+   int pourcentage
+   ObjectId agentId
+}
+
+User "1" --> "0..*" Task : manages
+@enduml
