@@ -118,4 +118,4 @@ Méthode: ``POST``
 Description: ``Upload un fichier PDF contenant le rapport de la tâche.``
 
 # Diagramme de classe du projet
-![user-task-diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jonashackt/Report_management_system_api/main/diagram.iuml)
+![alt text](https://github.com/Abdoulrachard/Report_management_system_api/blob/[main]/uml.png?raw=true)
