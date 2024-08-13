@@ -117,5 +117,5 @@ Endpoint: ``/api/tasks/:id/reportPdf``
 Méthode: ``POST``
 Description: ``Upload un fichier PDF contenant le rapport de la tâche.``
 
-# Diagramme de classe du projet
-![alt text](https://github.com/Abdoulrachard/Report_management_system_api/blob/[main]/uml.png?raw=true)
+## Diagramme de classe du projet
+![diagram](https://github.com/Abdoulrachard/Report_management_system_api/blob/main/uml.png)
