@@ -13,7 +13,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
-app.use('/api',TaskRouter);
-app.use('/api',UserRouter);
+app.use('/api/tasks',TaskRouter);
+app.use('/api/users',UserRouter);
 
 module.exports = app;

@@ -1,19 +1,8 @@
 const Task = require('../models/task');
 
 exports.createTask = (req, res) => {
-    const task = new Task({
-        title: req.body.title,
-        description: req.body.description,
-        startedAt: req.body.startedAt,
-        finishedAt: req.body.finishedAt,
-        taskPdf: req.body.taskPdf,
-        reportPdf: req.body.reportPdf,
-        taskDoc: req.body.taskDoc,
-        reportDoc: req.body.reportDoc,
-        status: req.body.status,
-        pourcentage: req.body.pourcentage,
-        agentId: req.body.agentId
-    });
+    const body = req.body;
+    const task = new Task({ ...body , data : new Date(body.date)});
 
     task.save()
         .then(createdTask => res.status(201).json({ message: 'Tâche créée!', task: createdTask }))

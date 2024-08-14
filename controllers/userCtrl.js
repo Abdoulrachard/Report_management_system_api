@@ -1,21 +1,52 @@
 const User = require('../models/user');
 
 exports.createUser = (req, res) => {
-    const user = new User({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        password: req.body.password,
-        gender: req.body.gender,
-        role: req.body.role,
-        status: req.body.status,
-        phone: req.body.phone
-    });
+    const body = req.body;
+    const errors = [];
+    if (!body.firstname) {
+         errors.push('Le champ firstname est obligatoire.');
+    }
 
-    user.save()
-        .then(createdUser => res.status(201).json({ message: 'Utilisateur créé!', user: createdUser }))
-        .catch(error => res.status(400).json({ error }));
-};
+    if (!body.lastname) {
+         errors.push('Le champ lastname est obligatoire.');
+    }
+
+    if (!body.email) {
+         errors.push('Le champ email est obligatoire.');
+    }
+
+    if (!body.password) {
+         errors.push('Le champ password est obligatoire.');
+    }
+
+    if (!body.role) {
+        errors.push('Le champ rôle est obligatoire.');
+    }
+
+    if (!body.status) {
+        errors.push('Le champ status est obligatoire.');
+    }
+    if (!body.phone) {
+        errors.push('Le champ phone est obligatoire.');
+    }
+    if(errors.length > 0) {
+        return res.status(400).json({ message: 'Veillez remplir tout les champs.', errors })
+    }
+    User.findOne({email:body.email})
+        .then(userExists =>{
+            if(userExists){
+                return res.status(200).json({ message: 'Cet email est déja utiliser '});
+            }
+            else{
+                const user = new User({
+                    ...body
+                });
+                user.save()
+                    .then(createdUser => res.status(201).json({ message: 'Utilisateur créé!', user: createdUser }))
+                    .catch(error => res.status(400).json({ error }));
+            }
+    })}
+   
 
 
 exports.getAllUsers = (req, res) => {
@@ -55,5 +86,5 @@ exports.updateUserRole = (req, res) => {
 exports.deleteUser = (req, res) => {
     User.deleteOne({ _id: req.params.id })
         .then(() => res.status(200).json({ message: 'Utilisateur supprimé!' }))
-        .catch(error => res.status(400).json({ error }));
+        .catch(error => res.status(400).json({message: "cet utilisateur n'existe pas !", error }));
 };
