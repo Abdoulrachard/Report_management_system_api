@@ -38,8 +38,10 @@ exports.createUser = (req, res) => {
                 return res.status(200).json({ message: 'Cet email est déja utiliser '});
             }
             else{
+                const filePath = `${req.protocol}://${req.get('host')}/images/${req.filename}`;
                 const user = new User({
-                    ...body
+                    ...body , 
+                    profil : filePath
                 });
                 user.save()
                     .then(createdUser => res.status(201).json({ message: 'Utilisateur créé!', user: createdUser }))
