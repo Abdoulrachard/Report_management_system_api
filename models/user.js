@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String, required : true , enum: ['admin', 'agent', 'probationer', 'user'] },
   status: {type : String, enum:['actif' , 'inactif'] , required: true} ,
   phone: {type :String , required: true },
+  profil: {type :String },
 });
 userSchema.plugin(uniqueValidator)
 
