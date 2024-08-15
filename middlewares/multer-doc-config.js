@@ -4,7 +4,6 @@ const MIME_TYPE = {
     'text/plain': 'txt' 
 }
 const fileFilter = (req , file , cb)  => {
-    console.log(file.mimetype);
     if(MIME_TYPE[file.mimetype] ){
         cb(null, true);
     }else{
