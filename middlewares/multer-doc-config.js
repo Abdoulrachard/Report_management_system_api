@@ -1,6 +1,6 @@
 const multer = require('multer');
 const MIME_TYPE = {
-    'aplication/pdf': 'pdf',
+    'application/pdf': 'pdf',
     'text/plain': 'txt' 
 }
 const fileFilter = (req , file , cb)  => {
@@ -13,12 +13,12 @@ const fileFilter = (req , file , cb)  => {
 }
 const storage = multer.diskStorage({
     destination: (req,file, cb) => {
-        cb(null,'document/');
+        cb(null,'documents/');
     },
     filename: (req,file, cb) =>{
-        const name = file.originalname.split(' ').join('_')+Date.now().toString();
+        const name = file.originalname.split('.')[0].split(' ').join('_')+Date.now();
         const extension = MIME_TYPE[file.mimetype] ;
         cb(null,name+'.'+extension);
     }
 });
-module.exports = multer({ storage: storage , fileFilter : fileFilter }).single('TaskPdf',)
+module.exports = multer({ storage: storage , fileFilter : fileFilter }).single('pdf')

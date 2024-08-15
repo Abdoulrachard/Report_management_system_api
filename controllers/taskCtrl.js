@@ -63,10 +63,10 @@ exports.uploadTaskPdf = (req, res) => {
         return res.status(400).json({ message: 'Veillez uploader le fichier pdf du tache ' });
     }
     const taskpdf = `${req.protocol}://${req.get('host')}/document/${req.file.filename}`;
-    Task.findById({ _id: req.params.id })
+    Task.findOne({ _id: req.params.id })
         .then((task) =>{
-            Task.updateOne({ _id: req.params.id} , { taskpdf: taskpdf})
-                .then(() => res.status(200).json({message: 'Le fichier pdf à été uploader avec success',task : {...task ,taskpdf: taskpdf}}))
+            Task.updateOne({ _id: req.params.id} , { taskPdf: taskpdf})
+                .then(() => res.status(200).json({message: 'Le fichier pdf à été uploader avec success', task }))
                 .catch((err) => res.status(500).json({err}))
         })
         .catch(() => res.status(404).json({ message: 'Tâche non trouvée!' }));
