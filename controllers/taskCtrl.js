@@ -11,6 +11,7 @@ exports.createTask = (req, res) => {
     if(errors.length > 0){
         return res.status(400).json({message:" Veillez rempplir tout les champs" ,  errors})
     }
+
     const task = new Task({ ...body , date : new Date(body.date)});
     task.save()
         .then(createdTask => res.status(201).json({ message: 'Tâche crée !', task: createdTask }))
@@ -58,10 +59,18 @@ exports.submitTask = (req, res) => {
 };
 
 exports.uploadTaskPdf = (req, res) => {
-    Task.updateOne({ _id: req.params.id }, { taskPdf: req.body.taskPdf })
-        .then(() => res.status(200).json({ message: 'Fichier taskPdf uploadé!' }))
-        .catch(error => res.status(400).json({ error }));
-};
+    if(!req.file){
+        return res.status(400).json({ message: 'Veillez uploader le fichier pdf du tache ' });
+    }
+    const taskpdf = `${req.protocol}://${req.get('host')}/document/${req.file.filename}`;
+    Task.findById({ _id: req.params.id })
+        .then((task) =>{
+            Task.updateOne({ _id: req.params.id} , { taskpdf: taskpdf})
+                .then(() => res.status(200).json({message: 'Le fichier pdf à été uploader avec success',task : {...task ,taskpdf: taskpdf}}))
+                .catch((err) => res.status(500).json({err}))
+        })
+        .catch(() => res.status(404).json({ message: 'Tâche non trouvée!' }));
+}
 
 exports.uploadReportPdf = (req, res) => {
     Task.updateOne({ _id: req.params.id }, { reportPdf: req.body.reportPdf })

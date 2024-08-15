@@ -38,7 +38,10 @@ exports.createUser = (req, res) => {
                 return res.status(200).json({ message: 'Cet email est déja utiliser '});
             }
             else{
-                const filePath = `${req.protocol}://${req.get('host')}/images/${req.filename}`;
+                let filePath = null ;
+                if(req.file){
+                    filePath = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+                }
                 const user = new User({
                     ...body , 
                     profil : filePath
@@ -72,7 +75,11 @@ exports.getUserById = (req, res) => {
 
 
 exports.updateUser = (req, res) => {
-    User.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+    const updateData = { ...req.body}
+    if (req.file){
+        updateData.profil = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    }
+    User.updateOne({ _id: req.params.id }, updateData)
         .then(() => res.status(200).json({ message: 'Utilisateur mis à jour!' }))
         .catch(error => res.status(400).json({ error }));
 };
